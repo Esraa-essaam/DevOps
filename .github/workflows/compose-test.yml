@@ -1,7 +1,5 @@
 name: Integration Testing with Docker Compose
 
-name: Integration Testing with Docker Compose
-
 on:
   push:
     branches:
@@ -9,9 +7,10 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   integration-test:
-    name: Run Compose Stack & Network Verification
+    name: Run Compose Stack
     runs-on: ubuntu-latest
 
     steps:
@@ -19,13 +18,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start Docker Compose Stack
-        run: echo "Starting Docker Compose..."
+        run: echo "Starting Docker Compose services..."
 
       - name: Wait for Services Initialization
-        run: sleep 5
+        run: sleep 2
 
-      - name: Verify Web Service Response
-        run: curl -f https://github.com || exit 1
+      - name: Verify Network Connection
+        run: ping -c 3 github.com
 
       - name: Teardown Stack
         if: always()
