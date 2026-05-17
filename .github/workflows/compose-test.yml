@@ -23,8 +23,11 @@ jobs:
       - name: Wait for Services Initialization
         run: sleep 2
 
-      - name: Verify Network Connection
-        run: ping -c 3 github.com
+      - name: Verify Environment Status
+        run: |
+          echo "Checking system environment..."
+          node -v
+          docker -v
 
       - name: Teardown Stack
         if: always()
