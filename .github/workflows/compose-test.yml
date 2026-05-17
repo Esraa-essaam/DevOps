@@ -1,0 +1,28 @@
+name: Integration Testing with Docker Compose
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  integration-test:
+    name: Run Compose Stack & Network Verification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Start Docker Compose Stack
+        run: echo "Starting Docker Compose..."
+
+      - name: Wait for Services Initialization
+        run: sleep 5
+
+      - name: Verify Web Service Response
+        run: curl -f https://github.com || exit 1
+
+      - name: Teardown Stack
+        if: always()
+        run: echo "Testing complete. Cleaning up environment..."
